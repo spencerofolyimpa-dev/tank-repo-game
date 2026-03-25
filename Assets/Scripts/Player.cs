@@ -7,15 +7,19 @@ public class Player : MonoBehaviour
     public float speed = 5f;
     public float jumpForce = 5f;  
 
-    private Rigidbody rb; // Holds reference to player's rigidbody.
+    private Rigidbody rb; // Reference to player's rigidbody.
     private PlayerInput playerInput; // Reference to the PlayerInput component.
     public GameObject playerCamera; // Reference to the player's camera object.
+    public float lookSensitivity = 0.05f; // 1 is VERY sensitive.
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
+
+        // turn off the cursor
+        Cursor.lockState = CursorLockMode.Locked;	
     }
 
     // Update is called once per frame
@@ -25,7 +29,7 @@ public class Player : MonoBehaviour
     }
 
 
-    /*CONTROLS************************************************************************************************/
+    //CONTROLS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void Move()
     {
@@ -37,11 +41,13 @@ public class Player : MonoBehaviour
     public void Look(InputAction.CallbackContext context)  // Connected to the PlayerInput event function call.
     {
         Vector2 lookInput = context.ReadValue<Vector2>();
-        Debug.Log("Look input: " + lookInput);
+        // Debug.Log("Look input: " + lookInput);
 
-        //!\\ ERROR: The player's body spins but the camera does not folllow. //!\\
-        playerCamera.transform.rotation = Quaternion.Euler(-lookInput.y, transform.rotation.y, transform.rotation.z); // Rotate camera only up and down
-        transform.rotation = Quaternion.Euler(transform.rotation.x, -lookInput.x, transform.rotation.z);
+        // Rotate camera only on the X-axis. Rotate player body only on the Y-axis. Camera will naturally follow player rotation.
+        playerCamera.transform.Rotate(-lookInput.y * lookSensitivity, 0f, 0f, Space.Self);
+        rb.transform.Rotate(0f, lookInput.x * lookSensitivity, 0f, Space.World);
+
+        // TODO: Lock camera angle so player doesn't break their neck.
     }
     public void Jump(InputAction.CallbackContext context)  // Connected to the PlayerInput event function call.
     {
