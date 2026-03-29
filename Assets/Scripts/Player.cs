@@ -67,14 +67,12 @@ public class Player : MonoBehaviour
     }
     public void Jump(InputAction.CallbackContext context)
     {
-        // Execute only when the jump button is down
+        // Execute only when the jump button is down and the player is grounded to prevent double jumping.
         if (context.performed && IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
-
-        Debug.Log(context.phase.GetType());
-
-        // TODO: Implement a check to prevent double jumping, such as checking if the player is grounded before allowing another jump.
     }
+
+    
 }
