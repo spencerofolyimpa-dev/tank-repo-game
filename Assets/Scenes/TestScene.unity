@@ -130,10 +130,10 @@ GameObject:
   - component: {fileID: 498346248}
   - component: {fileID: 498346247}
   - component: {fileID: 498346246}
-  - component: {fileID: 498346245}
   - component: {fileID: 498346244}
   - component: {fileID: 498346243}
   - component: {fileID: 498346249}
+  - component: {fileID: 498346250}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -202,6 +202,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4b966fd8-00b5-4d07-bbf8-4033ee67f8b4
     m_ActionName: 'PlayerMovement/Look[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2ba8827f-6577-435a-ac02-a87fd89c3a24
+    m_ActionName: 'PlayerMovement/Sprint[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement
@@ -219,31 +223,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50aca8cd192849d4191e0018cc8f970c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  speed: 5
+  defaultSpeed: 5
   jumpForce: 5
   playerCamera: {fileID: 963194225}
   lookSensitivity: 0.05
---- !u!65 &498346245
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 498346242}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &498346246
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -300,7 +283,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498346242}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &498346248
 Transform:
   m_ObjectHideFlags: 0
@@ -310,8 +293,8 @@ Transform:
   m_GameObject: {fileID: 498346242}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
-  m_LocalScale: {x: 0.5, y: 2, z: 0.5}
+  m_LocalPosition: {x: 0, y: -0.121, z: -10}
+  m_LocalScale: {x: 0.5, y: 0.64182, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 963194228}
@@ -344,6 +327,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!136 &498346250
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498346242}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

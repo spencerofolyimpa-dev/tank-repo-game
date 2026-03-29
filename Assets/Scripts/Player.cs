@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
 
-    public float speed = 5f;
+    
+    public float defaultSpeed = 5f; // Store the default speed to reset after sprinting.
+    private float speed; // Player's movement speed, can be modified for sprinting.
     public float jumpForce = 5f;  
 
     private Rigidbody rb; // Reference to player's rigidbody.
@@ -28,8 +30,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();  // Executes every frame to continuously update the player's position.
+    }
 
-        // Debug.Log(xRotation);
+    //HELPER FUNCTIONS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    private bool IsGrounded()
+    {
+        // Check if the player is grounded by casting a ray downwards from the player's position.
+        return Physics.Raycast(rb.transform.position, Vector3.down, rb.transform.localScale.y + 0.1f);
     }
 
 
@@ -40,6 +48,8 @@ public class Player : MonoBehaviour
         // Reads the "Move" action value of the "PlayerMovement" input map every frame, then apply it to the player's position.
         Vector2 inputVector = playerInput.actions["PlayerMovement/Move"].ReadValue<Vector2>();
         rb.transform.Translate(new Vector3(inputVector.x, 0f, inputVector.y) * speed * Time.deltaTime);
+
+        speed = (playerInput.actions["PlayerMovement/Sprint"].phase == InputActionPhase.Performed) ? defaultSpeed * 2f : defaultSpeed; // Sprint
     }
 
     public void Look(InputAction.CallbackContext context)
@@ -58,10 +68,12 @@ public class Player : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         // Execute only when the jump button is down
-        if (context.performed)
+        if (context.performed && IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
+
+        Debug.Log(context.phase.GetType());
 
         // TODO: Implement a check to prevent double jumping, such as checking if the player is grounded before allowing another jump.
     }
