@@ -16,6 +16,12 @@ public class Player : MonoBehaviour
     private float mouseYDelta = 0f; // Used to track the change in mouse Y input for clamping camera rotation.
     public float lookSensitivity = 0.05f; // 1 is VERY sensitive.
 
+    private int health = 100;
+    private int stamina = 100;
+    private int armor = 50;
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,7 +29,7 @@ public class Player : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         // turn off the cursor
-        Cursor.lockState = CursorLockMode.Locked;	
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -34,14 +40,24 @@ public class Player : MonoBehaviour
 
     //HELPER FUNCTIONS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+    public void TakeDamage(int damage)
+    {
+        int effectiveDamage = Mathf.Max(damage - armor, 0); // Calculate damage after armor reduction. "Mathf.Max" ensures damage doesn't go negative.
+        health -= effectiveDamage;
+
+        // if (health <= 0)
+        // {
+        //     Die(); // Call the Die method if health drops to 0 or below.
+        // }
+    }
+
     private bool IsGrounded()
     {
         // Check if the player is grounded by casting a ray downwards from the player's position.
         return Physics.Raycast(rb.transform.position, Vector3.down, rb.transform.localScale.y + 0.1f);
     }
 
-
-    //CONTROLS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //CONTROLS///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void Move()  // Not connected to the PlayerInput event function call.
     {
